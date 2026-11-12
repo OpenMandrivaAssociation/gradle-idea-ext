@@ -1,0 +1,43 @@
+--- a/src/main/groovy/org/jetbrains/gradle/ext/Copyright.groovy
++++ b/src/main/groovy/org/jetbrains/gradle/ext/Copyright.groovy
+@@ -33,7 +33,7 @@
+         if (!profiles.isEmpty()) {
+             map.put("profiles", profiles.asMap.collectEntries { k, v -> [k, v.toMap()] })
+         }
+-        return map
++        return map as Map<String, ?>
+     }
+ }
+ 
+--- a/src/main/groovy/org/jetbrains/gradle/ext/IdeaFilesProcessor.groovy
++++ b/src/main/groovy/org/jetbrains/gradle/ext/IdeaFilesProcessor.groovy
+@@ -223,10 +223,6 @@
+ 
+ class FilesProcessorBuildListener implements  BuildListener {
+     @Override
+-    void buildStarted(org.gradle.api.invocation.Gradle gradle) {
+-    }
+-
+-    @Override
+     void settingsEvaluated(Settings settings) {
+     }
+ 
+--- a/src/main/groovy/org/jetbrains/gradle/ext/internal/DefaultRunConfigurationContainer.groovy
++++ b/src/main/groovy/org/jetbrains/gradle/ext/internal/DefaultRunConfigurationContainer.groovy
+@@ -2,6 +2,7 @@
+ 
+ import groovy.transform.CompileStatic
+ import org.gradle.api.Action
++import org.gradle.api.internal.CollectionCallbackActionDecorator
+ import org.gradle.api.internal.DefaultPolymorphicDomainObjectContainer
+ import org.gradle.internal.reflect.Instantiator
+ import org.jetbrains.gradle.ext.RunConfiguration
+@@ -20,7 +21,7 @@
+ 
+     @Inject
+     DefaultRunConfigurationContainer(Instantiator instantiator) {
+-        super(RunConfiguration, instantiator)
++        super(RunConfiguration, instantiator, CollectionCallbackActionDecorator.NOOP)
+     }
+ 
+     @Override
